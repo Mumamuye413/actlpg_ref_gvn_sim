@@ -8,16 +8,13 @@
     
     run the demo with `map_size="small"`
     
+    [sim5_1d_cone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/0cb9d385-adf1-40e9-b25a-2c91bfa3e0a4)
     
-    [![Video](https://i9.ytimg.com/vi_webp/pjxTLKdB4Ag/mq2.webp?sqp=CPSlxqkG&rs=AOn4CLAyxw9Et07H9ymKff5ykLZ_JacKVg)](https://youtu.be/pjxTLKdB4Ag)
-
   * Medium 2d map with fewer moving obstacles
 
     run the demo with `map_size="medium"`
 
-<div align=right>
-  <td><img src="https://github.com/Mumamuye413/actlpg_ref_gvn_sim/blob/main/video/sim1_2o_dint.webm" alt="2o_dint" width="400"/></td>
-</div>
+    [sim1_2o_dint.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/95e75dbe-a611-47a1-ba60-c939371aad12)
 
 
   * Medium 2d map with more moving obstacles
@@ -28,17 +25,25 @@
   * Goal position tracking controller [Cone] (forward motion only)
     
     Run the demo with `controller_type="Cone"` `bi-directional=False`
-    
+
+    [sim3_8o_cone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/edf64ba7-72c3-422d-b921-fbb672a84428)
+
   * Goal position tracking controller [Cone] (bi-directional)
 
     Run the demo with `controller_type="Cone"` `bi-directional=True`
     
+    [sim6_8o_bdcone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/ed4e9629-45a6-45d5-bca2-fb3e80e645bf)
+
   * Goal pose tracking controller [Polar] (forward motion only)
 
     Run the demo with `controller_type="Polar"` `bi-directional=False`
     
+    [sim4_8o_polar.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/7ae0e25b-1390-42fa-9c8e-05a2eeebf057)
+
   * Goal pose tracking controller [Polar] (bi-directional)
 
     Run the demo with `controller_type="Polar"` `bi-directional=True`
     
+    [sim7_8o_bdpolar.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/828cffe6-168c-495b-9ae2-39bb14c09969)
+
 
