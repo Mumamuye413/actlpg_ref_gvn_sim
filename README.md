@@ -15,7 +15,8 @@
 
     run the demo with `map_size="medium"`
 
-    [![Video]
+    [![Video](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/blob/main/video/sim1_2o_dint.webm)
+    
   * Medium 2d map with more moving obstacles
 
     run the demo with `map_size="large"`
