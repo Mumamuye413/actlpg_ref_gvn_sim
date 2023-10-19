@@ -1,7 +1,7 @@
 # Safe Autonomous Robot Navigation in Dynamic Environments 
 #### This repository contains code for a demonstration of safe robot navigation in a dynamic environment using Reference Governor and Control Barrier Function techniques. It is part of Zhuolin Niu's [master thesis](https://escholarship.org/content/qt1jd778fm/qt1jd778fm.pdf).
 
-#### In this simulation code, the differential drive robot dynamics was simulated with an unicycle model with control, and multiple moving obstacles are set to move back-and-forth with a constant speed along give trajectories. 
+#### In this simulation code, the differential drive robot dynamics was simulated with an unicycle model, and multiple moving obstacles are set to circle sets moving back-and-forth with a constant speed along their given trajectories. 
 
 ## Simulation Environment Map
   * Small 1d map
@@ -15,8 +15,11 @@
 
     run the demo with `map_size="medium"`
 
-    [![Video](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/blob/main/video/sim1_2o_dint.webm)
-    
+<div align=right>
+  <td><img src="https://github.com/Mumamuye413/actlpg_ref_gvn_sim/blob/main/video/sim1_2o_dint.webm" alt="2o_dint" width="400"/></td>
+</div>
+
+
   * Medium 2d map with more moving obstacles
 
     run the demo with `map_size="large"`
