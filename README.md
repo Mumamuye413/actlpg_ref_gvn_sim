@@ -1,5 +1,5 @@
 # Safe Autonomous Robot Navigation in Dynamic Environments 
-#### This repository contains code for a demonstration of safe robot navigation in a dynamic environment using Reference Governor and Control Barrier Function techniques. It is part of Zhuolin Niu's master thesis (https://www.proquest.com/openview/eb0055fcbc801cc62367fe1aaec13503/1?pq-origsite=gscholar&cbl=18750&diss=y).
+#### This repository contains code for a demonstration of safe robot navigation in a dynamic environment using Reference Governor and Control Barrier Function techniques. It is part of Zhuolin Niu's [master thesis](https://escholarship.org/content/qt1jd778fm/qt1jd778fm.pdf).
 
 #### In this simulation code, the differential drive robot dynamics was simulated with an unicycle model with control, and multiple moving obstacles are set to move back-and-forth with a constant speed along give trajectories. 
 
