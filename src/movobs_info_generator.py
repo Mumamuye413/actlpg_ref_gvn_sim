@@ -10,26 +10,29 @@ class MovObsStates:
     obstacle_state: ndarray
     time: float
 
-    def __init__(self, mo_info, moving_obstacle_eps_dist=0.05):
+    def __init__(self, movobs_info, reach_goal_eps_dist=0.05):
         """
         INPUT
-        mo_info: moving obstacle parameters including
-            p_start         [2d array] 2d initial position [x, y] (m) 
+        movobs_info: moving obstacle parameters including
+            p_start         [2d array] 2d start position [x, y] (m) 
             p_goal          [2d array] 2d goal position [x, y] (m) 
-            v               [float] linear velocity (m/s) 
+            v_mo            [float] linear velocity (m/s)
+            r_mo            [float] moving obstacle set radius (m)
+        reach_goal_eps_dist: tolerance for determing moving obstacle position goal reached
         """
 
-        self.t_restart = 0.0  # timer for moving obstacles switch heading direction
-        self.moving_obstacle_eps_dist = moving_obstacle_eps_dist
+        self.t_restart = 0.0  # timer of switching heading direction
+        self.reach_goal_eps_dist = reach_goal_eps_dist
 
-        self.p_start = mo_info[0]
-        self.p_goal = mo_info[1]
-        self.v_mo = mo_info[2]
+        self.p_start = np.array(movobs_info[0:2])
+        self.p_goal = np.array(movobs_info[2:4])
+        self.v_mo = movobs_info[4]
+        self.r_mo = movobs_info[5]
 
         # compute obstacle heading
         p_delta = self.p_goal - self.p_start
         self.mo_heading = np.arctan2(p_delta[1], p_delta[0])
-        self.obstacle_pos2d = mo_info[0]
+        self.obstacle_pos2d = np.array(movobs_info[0:2])
 
         pass
 
@@ -41,6 +44,7 @@ class MovObsStates:
         OUTPUT
         s               4d moving obstacle state [px, py, vx, vy]
         """
+
         self.time = time
 
         # moving obstacle return after achieved current goal
@@ -63,8 +67,9 @@ class MovObsStates:
         """
         flip goal & start position to drive moving obstacles backwards after goal reached
         """
+
         p_diff = np.linalg.norm(self.p_goal - self.obstacle_pos2d)
-        if p_diff < self.moving_obstacle_eps_dist:
+        if p_diff < self.reach_goal_eps_dist:
             new_start = self.p_goal
             new_goal = self.p_start
             self.p_start = new_start

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Robot Governor System Class for sparse known env.
-Author: zhichao li at UCSD ERL
-Date: 06/26/2020
-BSD 3-Clause License
-https://github.com/zhl355/ICRA2020_RG_SDDM
+Robot Governor System Class.
+
+Modified from:
+    https://github.com/zhl355/ICRA2020_RG_SDDM
+    Author: zhichao li @ UCSD-ERL
+    Date: 06/26/2020
+    BSD 3-Clause License
 """
 # python built in package
 import numpy as np
@@ -14,6 +16,7 @@ import matplotlib as mpl
 from matplotlib.path import Path
 import matplotlib.patches as patches
 from utils.tools_geometry import ball_path_intersection, dist_point2obs
+from utils.tools_plot_common import create_arrowhead_patch
 
 
 
@@ -207,13 +210,6 @@ class RbtGovSys:
         self.v = x[2:]
         return g_new
 
-    @staticmethod
-    def create_arrowhead_patch():
-        verts = [(0,0), (-1,-1), (2,0), (-1,1), (0,0)]
-        codes = [Path.MOVETO, Path.LINETO, Path.LINETO, 
-                    Path.LINETO, Path.CLOSEPOLY]
-        return Path(verts, codes)
-
     def plotting_governor_tracking_init(self, ctrl_type=None):
         """
         initial governor tracking trojectory plot
@@ -237,7 +233,7 @@ class RbtGovSys:
         self.patch_rs = self.ax.add_patch(self.circle_rs)
         # plot governor position
         if self.ctrl_type=='Polar':
-            self.awhead = self.create_arrowhead_patch()
+            self.awhead = create_arrowhead_patch()
             # show governor location and heading
             awhead_rot = self.awhead.transformed(mpl.transforms.Affine2D().rotate(self.g[2]))
             self.loc_gvn, = self.ax.plot(self.g[0], self.g[1], marker=awhead_rot, ms=15, 

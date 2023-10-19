@@ -1,22 +1,27 @@
 #!/usr/bin/env python
 
-# Cone controller for unicycle-like robot positional stabilization 
-#   (angle convergence is not guranteed)
-# https://arxiv.org/pdf/2209.12648.pdf
+"""
+Position tracking controller for unicycle-modeled robot 
+  (angle convergence is not guranteed)
+
+Ref:
+https://arxiv.org/pdf/2209.12648.pdf
+"""
+
 
 import numpy as np
 import matplotlib as mpl
-from matplotlib.path import Path
 from scipy.integrate import solve_ivp
 
 from utils.tools_dynsys import unicycle_carts
 from utils.tools_geometry import wrap_angle, wf2bf2D
+from utils.tools_plot_common import create_arrowhead_patch
 
 
 class ConeController:
     """ 
-    Cone controller from Omur's technical report. Using this to compute 
-    velocity control signal given current and desired robot states.
+    Cone controller class to generate velocity control signal 
+    given current and desired robot states.
     """
     
     # Running status table, higher number better status
@@ -24,16 +29,16 @@ class ConeController:
     GOAL_LOC_REACHED = 2
     GOAL_POSE_REACHED = 10
 
-    def __init__(self, 
+    def __init__(self,
                  z_g,
                  z,
                  ctrl_bds=[],
                  ctrl_params=None,
-                 ax=None, 
+                 ax=None,
                  dt=0.05,
-                 eps_dist=0.5, 
+                 eps_dist=0.5,
                  eps_angle=np.pi/20.0,
-                 backward=False):
+                 bi_direction=False):
         """
         Init cone controller
         System Dimensions:  
@@ -50,11 +55,12 @@ class ConeController:
             eps_dist: tolerence for position tracking distance error
             eps_angle: tolerence for position tracking heading error
         """
+
         print('--------Init Class ConeController Start------------')
         self._dt = dt
         self._eps_dist = eps_dist
         self._eps_angle = eps_angle
-        self.backward = backward
+        self.bi_direction = bi_direction
         self.ax = ax
     
         self.gvec = z_g
@@ -100,13 +106,12 @@ class ConeController:
         zg_bf = wf2bf2D(z, zg[0:2])
         
         e = zg_bf[0]
-        if self.backward:
+        if self.bi_direction:
             if abs(zg_bf[1])<self._eps_dist:
                 e_phi = 0.0
             else:
                 e_phi = np.arctan(zg_bf[1]/zg_bf[0])
         else:
-            # e_phi = wrap_angle(np.arctan2(d[1], d[0])-z[2]) # tracking heading error
             e_phi = np.arctan2(zg_bf[1], zg_bf[0]) # tracking heading error
 
         if len(zg)==3:
@@ -116,7 +121,6 @@ class ConeController:
 
         xvec = np.array([e, e_phi, z_phi])
 
-        # self.d = d
         self.zg_bf = zg_bf
         self.xvec = xvec
         self.log_xvec = np.vstack((self.log_xvec, xvec))
@@ -131,7 +135,6 @@ class ConeController:
         """
 
         xvec = self.cmp_tracking_error()
-        # d = self.d
         zg_bf = self.zg_bf
         e, e_phi, _ = xvec
 
@@ -139,16 +142,14 @@ class ConeController:
         if np.linalg.norm(zg_bf) < self._eps_dist:
             v = 0.0
             w = 0.0
-            msg = "[cone controller]  status = GOAL_LOC_REACHED"
-            #     print(msg)
-                
+            msg = "[cone controller]  status = GOAL_LOC_REACHED"                
             self.warning_msg = msg
             
         else:
             self.warning_msg = None
             self.status = ConeController.NORMAL
             # ------------------ normal case  ----------------
-            if self.backward:
+            if self.bi_direction:
                 v = self.kv * e
             else:
                 v = self.kv * max(0, e)
@@ -207,7 +208,6 @@ class ConeController:
         # update states and log
         self.zvec = zvec_up.copy()
         self.log_zvec = np.vstack((self.log_zvec, zvec_up))
-        
         self.log_t.append(t)
 
         return zvec_up
@@ -223,19 +223,12 @@ class ConeController:
                 reached_flag = True
 
         return reached_flag
-    
-    @staticmethod
-    def create_arrowhead_patch():
-        verts = [(0,0), (-1,-1), (2,0), (-1,1), (0,0)]
-        codes = [Path.MOVETO, Path.LINETO, Path.LINETO, 
-                    Path.LINETO, Path.CLOSEPOLY]
-        return Path(verts, codes)
 
     def plotting_robot_trj_init(self):
         """
         plot robot trojectory
         """
-        self.awhead = self.create_arrowhead_patch()
+        self.awhead = create_arrowhead_patch()
         # show robot location and heading
         awhead_rot = self.awhead.transformed(mpl.transforms.Affine2D().rotate(self.zvec[2]))
         self.loc_rob, = self.ax.plot(self.zvec[0], self.zvec[1], marker=awhead_rot, ms=18, 
