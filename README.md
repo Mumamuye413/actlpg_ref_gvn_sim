@@ -8,10 +8,14 @@
     
     run the demo with `map_size="small"`
     
+    
+    [![Video](https://i9.ytimg.com/vi_webp/pjxTLKdB4Ag/mq2.webp?sqp=CPSlxqkG&rs=AOn4CLAyxw9Et07H9ymKff5ykLZ_JacKVg)](https://youtu.be/pjxTLKdB4Ag)
+
   * Medium 2d map with fewer moving obstacles
 
     run the demo with `map_size="medium"`
 
+    [![Video]
   * Medium 2d map with more moving obstacles
 
     run the demo with `map_size="large"`
