@@ -3,6 +3,13 @@
 
 #### In this simulation code, the differential drive robot dynamics was simulated with an unicycle model, and multiple moving obstacles are set to circle sets moving back-and-forth with a constant speed along their given trajectories. 
 
+## Dependencies
+The code is tested on `Ubuntu 20.04 LTS` with `Anaconda (Python 3.9)` 
+### Libraries
+- cvxpy                     1.3.0
+- matplotlib                3.7.1
+- numpy                     1.24.2
+- scipy                     1.9.1
 ## Simulation Environment Map
   * Small 1d map
     
