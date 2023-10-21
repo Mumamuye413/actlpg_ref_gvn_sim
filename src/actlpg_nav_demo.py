@@ -16,7 +16,7 @@ my_default_plt_setting()
 
 class NavigationDemo:
     """
-    Three demos available by picking different [map_size]:
+    Three simulation environments available by picking different [map_size]:
         small  - 1d map(path) with two moving obstacles
         medium - 2d map with two moving obstacles
         large  - 2d map with eight moving obstacles
