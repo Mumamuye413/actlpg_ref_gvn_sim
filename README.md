@@ -5,30 +5,35 @@
 
 ## Dependencies
 The code is tested on `Ubuntu 20.04 LTS` with `Anaconda (Python 3.9)` 
+
 ### Libraries
 - cvxpy                     1.3.0
 - matplotlib                3.7.1
 - numpy                     1.24.2
 - scipy                     1.9.1
-## Simulation Environment Map
+  
+## Simulation Results with Different Environment Map
   * Small 1d map
     
     run the demo with `map_size="small"`
     
     [sim5_1d_cone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/0cb9d385-adf1-40e9-b25a-2c91bfa3e0a4)
     
-  * Medium 2d map with fewer moving obstacles
+  * Medium 2d map with fewer(two) moving obstacles
 
     run the demo with `map_size="medium"`
 
     [sim1_2o_dint.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/95e75dbe-a611-47a1-ba60-c939371aad12)
 
 
-  * Medium 2d map with more moving obstacles
+  * Medium 2d map with more(eight) moving obstacles
 
     run the demo with `map_size="large"`
     
-## Lower-level controllers:
+## Simulation Results with Different Lower-level controllers:
+
+More details about the controllers can be found in [this repositery](https://github.com/Mumamuye413/unicycle_controller_sim).
+
   * Goal position tracking controller [Cone] (forward motion only)
     
     Run the demo with `controller_type="Cone"` `bi-directional=False`
