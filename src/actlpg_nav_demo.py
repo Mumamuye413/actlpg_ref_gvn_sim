@@ -28,14 +28,14 @@ class NavigationDemo:
                  map_size,              # pick [small], [medium] or [large] environment
                  controller_type,       # position tracking [cone] or pose converging [polar] controller
                  bi_direction=True,     # active backward driving or not
-                 save_fig="none",         # save sampled-frame [vedio]; save figure at picked time [time]; no figure saved [none]
+                 save_fig="none",       # save sampled-frame [vedio]; save figure at picked time [time]; no figure saved [none]
                  fig_folder="fig",      # save figures to this folder
                  frame_sample_rate=1,   # for making vedio from figure frames
                  time_save=None,        # save figures at picked time list
                  show_safety=False,     # show second figure with safety metrics values
                  classK_gamma=0.15,     # class-K function scale
                  dt = 0.05,             # seconds/step
-                 t_max = 10000,         # max simulation time steps
+                 t_max = 100000,         # max simulation time steps
                  dist_tol = 0.5,        # reaching goal (position) tolerance (Euclidean distance)
                  ):
         
