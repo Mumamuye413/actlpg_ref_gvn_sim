@@ -39,7 +39,7 @@ Run the demo with `actlpg_nav_demo.py`.
     
 ## Simulation Results with Different Lower-level controllers:
 
-More details about the controllers can be found in [this repositery](https://github.com/Mumamuye413/unicycle_controller_sim).
+More details about the controllers can be found in [this repository](https://github.com/Mumamuye413/unicycle_controller_sim).
 
   * Goal position tracking controller [Cone] (forward motion only)
     
