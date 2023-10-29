@@ -25,13 +25,13 @@ Run the demo with `actlpg_nav_demo.py`.
     
     run the demo with `map_size="small"`
     
-    <img src="/gif/sim1_1d_cone.gif" alt="1d_cone" width="400"/>
+    <img src="/gif/sim1_1d_cone.gif" alt="1d_cone" width="600"/>
     
   * Medium 2d map with fewer(two) moving obstacles
 
     run the demo with `map_size="medium"`
 
-    <img src="/gif/sim2_2o_cone.gif" alt="2o_cone" width="400"/>
+    <img src="/gif/sim2_2o_cone.gif" alt="2o_cone" width="600"/>
 
   * Medium 2d map with more(eight) moving obstacles
 
@@ -45,24 +45,24 @@ More details about the controllers can be found in [this repositery](https://git
     
     Run the demo with `controller_type="Cone"` `bi-directional=False`
 
-    <img src="/gif/sim3_8o_cone.gif" alt="8o_cone" width="400"/>
+    <img src="/gif/sim3_8o_cone.gif" alt="8o_cone" width="600"/>
 
   * Goal position tracking controller [Cone] (bi-directional)
 
     Run the demo with `controller_type="Cone"` `bi-directional=True`
     
-    <img src="/gif/sim4_8o_bdcone.gif" alt="8o_bdcone" width="400"/>
+    <img src="/gif/sim4_8o_bdcone.gif" alt="8o_bdcone" width="600"/>
 
   * Goal pose tracking controller [Polar] (forward motion only)
 
     Run the demo with `controller_type="Polar"` `bi-directional=False`
     
-    <img src="/gif/sim5_8o_polar.gif" alt="8o_polar" width="400"/>
+    <img src="/gif/sim5_8o_polar.gif" alt="8o_polar" width="600"/>
 
   * Goal pose tracking controller [Polar] (bi-directional)
 
     Run the demo with `controller_type="Polar"` `bi-directional=True`
     
-    <img src="/gif/sim6_8o_bdpolar.gif" alt="8o_bdpolar" width="400"/>
+    <img src="/gif/sim6_8o_bdpolar.gif" alt="8o_bdpolar" width="600"/>
 
 

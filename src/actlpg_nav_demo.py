@@ -438,9 +438,9 @@ if __name__ == '__main__':
     frame_sample_rate = 1   # for making video from figure frames
     time_save = [6.15, 9.80, 11.90, 12.70, 15.60]   # e.g. save figures at picked time
 
-    NavDemo = NavigationDemo(map_size="large", 
+    NavDemo = NavigationDemo(map_size="medium", 
                              controller_type="Cone",
                              bi_direction=True,
                              save_fig="video",
-                             frame_sample_rate=2,)
+                             frame_sample_rate=1,)
     NavDemo.drive()
