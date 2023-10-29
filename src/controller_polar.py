@@ -20,9 +20,11 @@ Modified to be bi-directional.
 
 import numpy as np
 import numpy.linalg as npla
+import matplotlib as mpl
 from scipy.integrate import solve_ivp
 
 from utils.tools_geometry import wrap_angle, wf2bf2D
+from utils.tools_plot_common import create_arrowhead_patch
 from utils.tools_dynsys import unicycle_polar
 
 
@@ -37,6 +39,7 @@ class PolarController:
                  ctrl_gains,
                  clf_paras,
                  ctrl_bds,
+                 ax=None,
                  dt=0.05,
                  eps_dist=0.05, 
                  eps_angle=np.pi/20.0,
@@ -63,18 +66,18 @@ class PolarController:
         """
 
         print('--------Init Class PolarController Start------------')
-        self._dt = dt
-        self._eps_dist = eps_dist
-        self._eps_angle = eps_angle
+        self.dt = dt
+        self.eps_dist = eps_dist
+        self.eps_angle = eps_angle
         self.bi_direction = bi_direction
+        self.ax = ax
         
         self.gvec = zg
         self.zvec = z
         xvec0 = self.trans_gc2lp(zg)
         self.xvec = xvec0
-        print('zvec0 [z1, z2, z_theta] =  %s' % self.zvec)
-        print('gvec0 [g1, g2, g_theta] =  %s' % self.gvec)
-        print('xvec0 [e, e_phi, d_phi] =  %s' % self.xvec)
+        self.uvec = np.zeros(2)
+        self.v = 0.0
 
         self._ctrl_gains = ctrl_gains
         self._clf_paras = clf_paras
@@ -126,11 +129,14 @@ class PolarController:
 
         e = npla.norm(gvec[0:2] - zvec[0:2])
         d_theta = np.arctan2(g2 - z2, g1 - z1)
+        self.kv_dirct = self.check_backgoal(gvec[0:2], zvec)
 
         if self.bi_direction:
-            self.kv_dirct = self.check_backgoal(gvec[0:2], zvec)
             g1_bf, g2_bf = self.g_bf
-            e_phi = np.arctan(g2_bf/g1_bf)
+            if abs(g2_bf)<self.eps_dist:
+                e_phi = 0.0
+            else:
+                e_phi = np.arctan(g2_bf/g1_bf)
             if self.kv_dirct<0:
                 g_theta_bw = wrap_angle(g_theta + np.pi)
                 d_phi = wrap_angle(d_theta - g_theta_bw)
@@ -204,10 +210,11 @@ class PolarController:
             w = self._ctrl_bds[3]
         
         uvec = np.array([v, w])
+        self.v = v
         self.uvec = uvec
         return uvec
 
-    def update(self, zg, debug_info=True):
+    def update(self, zg):
         """ 
         update robot local error states and global pose with polar control signal
         """
@@ -216,29 +223,21 @@ class PolarController:
         uvec = self.generate_control()
 
         self.tidx +=1
-        t = self.tidx * self._dt
+        t = self.tidx * self.dt
 
         # real-robot state update
-        xvec_sol = solve_ivp(unicycle_polar, [t-self._dt,t], xvec, t_eval=[t], args=(uvec[0],uvec[1]))
+        xvec_sol = solve_ivp(unicycle_polar, [t-self.dt,t], xvec, t_eval=[t], args=(uvec[0],uvec[1]))
         xvec_up = xvec_sol.y[:,0]
         self.xvec = xvec_up
         zvec_up = self.trans_lp2gc()
         self.zvec = zvec_up
 
-        if debug_info:
-            np.set_printoptions(formatter={'float': '{: 0.4f}'.format})
-            print("t = %4.2f" % (t))
-            print('uvec(%s) = %s' % (uvec))
-            print('xvec  = %s' % self.xvec)
-            print('xvec+ = %s' % xvec_up)
-            print('V(x) = %.4f' % V)
-            print('--------------------------------------------')
-            np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
-        
         self.log_xvec = np.vstack((self.log_xvec, xvec_up))
         self.log_zvec = np.vstack((self.log_zvec, zvec_up))
         self.log_uvec = np.vstack((self.log_uvec, uvec))
         self.log_t.append(t)
+
+        return zvec_up
 
     def check_goal_reached_rbt(self, debug_level=-1):
         """ 
@@ -249,11 +248,11 @@ class PolarController:
         e, e_phi, _ = self.xvec
         V = self.cpt_lyap()
 
-        if e < self._eps_dist:
+        if e < self.eps_dist:
             if debug_level > 0 and (not reached_flag_dist):
                     print("Goal position reached")
                     reached_flag_dist = True
-            if np.abs(e_phi) < self._eps_angle:
+            if np.abs(e_phi) < self.eps_angle:
                 if debug_level > 0:
                     print("Goal configuraiton reached")
                 reached_flag = True
@@ -263,3 +262,32 @@ class PolarController:
                 e_phi_deg = np.rad2deg(e_phi)
                 print('e = %.4f e_phi = %.4f deg V = %.4f' %(e, e_phi_deg, V) )
         return reached_flag
+
+    def plotting_robot_trj_init(self):
+        """
+        plot robot trojectory
+        """
+        self.awhead = create_arrowhead_patch()
+        # show robot location and heading
+        awhead_rot = self.awhead.transformed(mpl.transforms.Affine2D().rotate(self.zvec[2]))
+        self.loc_rob, = self.ax.plot(self.zvec[0], self.zvec[1], marker=awhead_rot, ms=18, 
+                            color='purple', label='robot pose')
+        self.trj_rob, = self.ax.plot(self.log_zvec[:,0], self.log_zvec[:,1], 
+                                    color='mediumpurple', lw=5, label='robot trajectory')
+        self.annv = self.ax.annotate(r'$\|v\|$: 0.00s/m', xy=(5,85), fontsize='xx-large')
+        pass
+
+    def plotting_robot_trj_update(self):
+        """
+        update robot trojectory
+        """
+        awhead_rot = self.awhead.transformed(mpl.transforms.Affine2D().rotate(self.zvec[2]))
+        if self.tidx%50 == 0:
+            self.ax.plot(self.zvec[0], self.zvec[1], marker=awhead_rot, ms=12, 
+                         color='indigo', label='robot pose')
+        self.loc_rob.set_data(self.zvec[0], self.zvec[1])
+        self.loc_rob.set_marker(awhead_rot)
+        self.trj_rob.set_data(self.log_zvec[:,0], self.log_zvec[:,1])
+        v_norm = format(np.linalg.norm(self.v), '.2f')
+        self.annv.set_text(r'$\|v\|$: '+str(v_norm)+'m/s')
+        pass

@@ -47,7 +47,7 @@ def my_default_plt_setting():
     return 0
 
 
-def save_fig_to_folder(fig, folder, fname, dpi=300, ftype_ext='.png'):
+def save_fig_to_folder(fig, folder, fname, dpi=200, ftype_ext='.png'):
     """ 
     Save figure to specified location (create folder if it does not exist)
     """

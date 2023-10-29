@@ -11,20 +11,27 @@ The code is tested on `Ubuntu 20.04 LTS` with `Anaconda (Python 3.9)`
 - matplotlib                3.7.1
 - numpy                     1.24.2
 - scipy                     1.9.1
-  
+
+## Run Demo
+Run the demo with `actlpg_nav_demo.py`.
+
+- Pick `map_size` among "small", "medium" or "large";
+- Pick `controller_type` between "Cone" - goal position tracking and "Polar" - goal pose alignment;
+- Set `bi_direction` to `True` - bi-directional motion or `False` - forward motion only;
+- Pick `save_fig` among "none" - no figure saved, "video" - save frames to make video/gif, or "time" - save figures at specific timestamps.
+
 ## Simulation Results with Different Environment Map
   * Small 1d map
     
     run the demo with `map_size="small"`
     
-    [sim5_1d_cone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/0cb9d385-adf1-40e9-b25a-2c91bfa3e0a4)
+    <img src="/gif/sim1_1d_cone.gif" alt="1d_cone" width="400"/>
     
   * Medium 2d map with fewer(two) moving obstacles
 
     run the demo with `map_size="medium"`
 
-    [sim1_2o_dint.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/95e75dbe-a611-47a1-ba60-c939371aad12)
-
+    <img src="/gif/sim2_2o_cone.gif" alt="2o_cone" width="400"/>
 
   * Medium 2d map with more(eight) moving obstacles
 
@@ -38,24 +45,24 @@ More details about the controllers can be found in [this repositery](https://git
     
     Run the demo with `controller_type="Cone"` `bi-directional=False`
 
-    [sim3_8o_cone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/edf64ba7-72c3-422d-b921-fbb672a84428)
+    <img src="/gif/sim3_8o_cone.gif" alt="8o_cone" width="400"/>
 
   * Goal position tracking controller [Cone] (bi-directional)
 
     Run the demo with `controller_type="Cone"` `bi-directional=True`
     
-    [sim6_8o_bdcone.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/ed4e9629-45a6-45d5-bca2-fb3e80e645bf)
+    <img src="/gif/sim4_8o_bdcone.gif" alt="8o_bdcone" width="400"/>
 
   * Goal pose tracking controller [Polar] (forward motion only)
 
     Run the demo with `controller_type="Polar"` `bi-directional=False`
     
-    [sim4_8o_polar.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/7ae0e25b-1390-42fa-9c8e-05a2eeebf057)
+    <img src="/gif/sim5_8o_polar.gif" alt="8o_polar" width="400"/>
 
   * Goal pose tracking controller [Polar] (bi-directional)
 
     Run the demo with `controller_type="Polar"` `bi-directional=True`
     
-    [sim7_8o_bdpolar.webm](https://github.com/Mumamuye413/actlpg_ref_gvn_sim/assets/97318853/828cffe6-168c-495b-9ae2-39bb14c09969)
+    <img src="/gif/sim6_8o_bdpolar.gif" alt="8o_bdpolar" width="400"/>
 
 

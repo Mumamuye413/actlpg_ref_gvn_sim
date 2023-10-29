@@ -28,9 +28,9 @@ class NavigationDemo:
                  map_size,              # pick [small], [medium] or [large] environment
                  controller_type,       # position tracking [cone] or pose converging [polar] controller
                  bi_direction=True,     # active backward driving or not
-                 save_fig="none",       # save sampled-frame [vedio]; save figure at picked time [time]; no figure saved [none]
+                 save_fig="none",       # save sampled-frame [video]; save figure at picked time [time]; no figure saved [none]
                  fig_folder="fig",      # save figures to this folder
-                 frame_sample_rate=1,   # for making vedio from figure frames
+                 frame_sample_rate=1,   # for making video from figure frames
                  time_save=None,        # save figures at picked time list
                  show_safety=False,     # show second figure with safety metrics values
                  classK_gamma=0.15,     # class-K function scale
@@ -310,15 +310,19 @@ class NavigationDemo:
         t = round(ti*dt,2)
 
         if save_fig == "video":
-            if (ti % frame_sample_rate ==0):
+            if (ti % self.frame_sample_rate == 0):
                 fig1.canvas.flush_events()
-                save_fig_to_folder(fig1, fig_folder, str(1000000+ti))
+                save_fig_to_folder(fig1, 
+                                   fig_folder,
+                                   str(1000000+ti),
+                                   dpi=150)
         
         elif save_fig == "time":
             if (t in time_save):
                 fig1.canvas.flush_events()
-                save_fig_to_folder(fig1, fig_folder, 
-                                   'sim_t_'+str(1000000+ti), 
+                save_fig_to_folder(fig1, 
+                                   fig_folder, 
+                                   'sim_t_'+str(1000000+ti),
                                    ftype_ext='.pdf')
         
         elif save_fig == "none":
@@ -431,8 +435,12 @@ class NavigationDemo:
 
 if __name__ == '__main__':
 
-    frame_sample_rate = 1   # for making vedio from figure frames
+    frame_sample_rate = 1   # for making video from figure frames
     time_save = [6.15, 9.80, 11.90, 12.70, 15.60]   # e.g. save figures at picked time
 
-    NavDemo = NavigationDemo(map_size="large", controller_type="Cone")
+    NavDemo = NavigationDemo(map_size="large", 
+                             controller_type="Cone",
+                             bi_direction=True,
+                             save_fig="video",
+                             frame_sample_rate=2,)
     NavDemo.drive()
